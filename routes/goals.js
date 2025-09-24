@@ -171,20 +171,26 @@ const callGeminiAPI = async (prompt) => {
 };
 
 const validateAndFixMilestones = (milestones) => {
-    return milestones.map(milestone => {
-        // Truncate description if it's too long
-        let description = milestone.description;
-        if (description.length > 500) {
-            // Truncate at 497 characters and add "..."
-            description = description.substring(0, 497) + '...';
-            console.log('Truncated milestone description from', milestone.description.length, 'to', description.length, 'characters');
-        }
-        
-        return {
-            ...milestone,
-            description: description.trim()
-        };
-    });
+ return milestones.map((milestone) => {
+  // Truncate description if it's too long
+  let description = milestone.description;
+  if (description.length > 500) {
+   // Truncate at 497 characters and add "..."
+   description = description.substring(0, 497) + "...";
+   console.log(
+    "Truncated milestone description from",
+    milestone.description.length,
+    "to",
+    description.length,
+    "characters"
+   );
+  }
+
+  return {
+   ...milestone,
+   description: description.trim(),
+  };
+ });
 };
 
 // POST /api/goals/create
@@ -415,11 +421,9 @@ Respond with a JSON object containing a 'milestones' array.`;
  } catch (error) {
   console.error("Goal creation error:", error);
   if (error.message.includes("Gemini API")) {
-   res
-    .status(503)
-    .json({
-     message: "AI service temporarily unavailable. Please try again later.",
-    });
+   res.status(503).json({
+    message: "AI service temporarily unavailable. Please try again later.",
+   });
   } else {
    res.status(500).json({ message: "Error creating goal. Please try again." });
   }
