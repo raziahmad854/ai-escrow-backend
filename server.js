@@ -16,10 +16,11 @@ mongoose.connect(process.env.MONGO_URI)
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://ai-escrow-six.vercel.app', 'https://ai-escrow-backend-production.up.railway.app']
+    : 'http://localhost:3000',
   credentials: true
 }));
-
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/goals', require('./routes/goals'));
