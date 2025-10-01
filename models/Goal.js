@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const milestoneSchema = new mongoose.Schema({
@@ -20,7 +21,17 @@ const milestoneSchema = new mongoose.Schema({
   completedAt: {
     type: Date
   },
-  // These fields are for future use and current tracking
+  // Verification requirements and proof
+  verificationCriteria: {
+    type: String,
+    maxlength: 500,
+    trim: true
+  },
+  requiredProofType: {
+    type: String,
+    enum: ['image', 'video', 'document', 'text', 'any'],
+    default: 'any'
+  },
   proofUrl: { 
     type: String,
     validate: {
@@ -30,6 +41,35 @@ const milestoneSchema = new mongoose.Schema({
       message: 'Proof URL must be a valid HTTP/HTTPS URL'
     }
   },
+  proofDescription: {
+    type: String,
+    maxlength: 1000,
+    trim: true
+  },
+  aiVerification: {
+    verified: { 
+      type: Boolean, 
+      default: false 
+    },
+    confidence: {
+      type: Number,
+      min: 0,
+      max: 100
+    },
+    analysis: {
+      type: String,
+      maxlength: 1000
+    },
+    verifiedAt: Date
+  },
+  selfCertified: {
+    type: Boolean,
+    default: false
+  },
+  selfCertificationReason: {
+    type: String,
+    maxlength: 500
+  },
   verified: { 
     type: Boolean, 
     default: false 
@@ -38,6 +78,11 @@ const milestoneSchema = new mongoose.Schema({
     type: Number, 
     default: 0,
     min: 0
+  },
+  verificationStatus: {
+    type: String,
+    enum: ['pending', 'ai_approved', 'self_certified', 'manual_review', 'rejected'],
+    default: 'pending'
   },
   notes: {
     type: String,
