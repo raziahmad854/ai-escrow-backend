@@ -22,7 +22,7 @@ app.use(
    process.env.NODE_ENV === "production"
     ? [
        "https://ai-escrow-six.vercel.app",
-       "https://ai-escrow-backend-production.up.railway.app",
+       "https://ai-escrow-backend.onrender.com/",
       ]
     : "http://localhost:3000",
   credentials: true,
